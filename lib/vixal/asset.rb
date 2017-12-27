@@ -1,4 +1,4 @@
-module VIXAL
+module Vixal
   class Asset
     def self.native
       new(:asset_type_native)
@@ -24,18 +24,18 @@ module VIXAL
         "native"
       when AssetType.asset_type_credit_alphanum4
         anum = alpha_num4!
-        issuer_address = VIXAL::Convert.pk_to_address(anum.issuer)
+        issuer_address = Vixal::Convert.pk_to_address(anum.issuer)
         "#{anum.asset_code}/#{issuer_address}"
       when AssetType.asset_type_credit_alphanum12
         anum = alpha_num12!
-        issuer_address = VIXAL::Convert.pk_to_address(anum.issuer)
+        issuer_address = Vixal::Convert.pk_to_address(anum.issuer)
         "#{anum.asset_code}/#{issuer_address}"
       end
     end
 
     def inspect
       label = switch.to_s
-      "#<VIXAL::Asset #{to_s}>"
+      "#<Vixal::Asset #{to_s}>"
     end
 
     def code

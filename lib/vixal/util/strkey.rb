@@ -1,4 +1,4 @@
-module VIXAL
+module Vixal
   module Util
 
     require 'base32'

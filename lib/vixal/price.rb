@@ -1,4 +1,4 @@
-module VIXAL
+module Vixal
 
   # reopen class
   class Price
@@ -26,7 +26,7 @@ module VIXAL
     end
 
     def inspect
-      "#<VIXAL::Price #{self}>"
+      "#<Vixal::Price #{self}>"
     end
   end
 end

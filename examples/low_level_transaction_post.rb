@@ -14,18 +14,18 @@ require 'digest/sha2'
 master      = RbNaCl::SigningKey.new("allmylifemyhearthasbeensearching")
 destination = RbNaCl::SigningKey.new("allmylifemyhearthasbeensearching")
 
-tx            = VIXAL::Transaction.new
+tx            = Vixal::Transaction.new
 tx.account    = master.verify_key.to_bytes
 tx.fee        = 1000
 tx.seq_num    = 1
 
-payment = VIXAL::PaymentOp.new
+payment = Vixal::PaymentOp.new
 payment.destination = destination.verify_key.to_bytes
-payment.asset = VIXAL::Asset.new(:native)
-payment.amount = 200 * VIXAL::ONE
+payment.asset = Vixal::Asset.new(:native)
+payment.amount = 200 * Vixal::ONE
 
-op = VIXAL::Operation.new
-op.body = VIXAL::Operation::Body.new(:payment, payment)
+op = Vixal::Operation.new
+op.body = Vixal::Operation::Body.new(:payment, payment)
 
 tx.operations = [op]
 
@@ -33,9 +33,9 @@ raw       = tx.to_xdr
 tx_hash   = Digest::SHA256.digest raw
 signature = master.sign(tx_hash)
 
-env = VIXAL::TransactionEnvelope.new
+env = Vixal::TransactionEnvelope.new
 env.tx = tx
-env.signatures = [VIXAL::DecoratedSignature.new({
+env.signatures = [Vixal::DecoratedSignature.new({
   hint:master.verify_key.to_bytes[0...4],
   signature:signature
 })]

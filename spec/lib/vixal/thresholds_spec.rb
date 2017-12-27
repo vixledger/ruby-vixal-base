@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe VIXAL::Thresholds, ".parse" do
-  subject{ VIXAL::Thresholds }
+describe Vixal::Thresholds, ".parse" do
+  subject{ Vixal::Thresholds }
   let(:raw)    { "\x01\x02\x03\x04" }
   let(:result) { subject.parse raw }
 
@@ -22,8 +22,8 @@ describe VIXAL::Thresholds, ".parse" do
   end
 end
 
-describe VIXAL::Thresholds, ".make" do
-  subject{ VIXAL::Thresholds }
+describe Vixal::Thresholds, ".make" do
+  subject{ Vixal::Thresholds }
   let(:good){{master_weight: 1, low: 2, medium: 3, high: 4}}
 
   it "works" do

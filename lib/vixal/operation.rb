@@ -1,26 +1,26 @@
 require 'bigdecimal'
 
-module VIXAL
+module Vixal
   class Operation
 
 
     #
-    # Construct a new VIXAL::Operation from the provided
+    # Construct a new Vixal::Operation from the provided
     # source account and body
     #
     # @param [Hash] attributes the attributes to create the operation with
-    # @option attributes [VIXAL::KeyPair] :source_account
-    # @option attributes [VIXAL::Operation::Body] :body
+    # @option attributes [Vixal::KeyPair] :source_account
+    # @option attributes [Vixal::Operation::Body] :body
     #
-    # @return [VIXAL::Operation] the built operation
+    # @return [Vixal::Operation] the built operation
     def self.make(attributes={})
       source_account = attributes[:source_account]
-      body           = VIXAL::Operation::Body.new(*attributes[:body])
+      body           = Vixal::Operation::Body.new(*attributes[:body])
 
-      op = VIXAL::Operation.new(body:body)
+      op = Vixal::Operation.new(body:body)
 
       if source_account
-        raise ArgumentError, "Bad :source_account" unless source_account.is_a?(VIXAL::KeyPair)
+        raise ArgumentError, "Bad :source_account" unless source_account.is_a?(Vixal::KeyPair)
         op.source_account = source_account.account_id
       end
 
@@ -33,13 +33,13 @@ module VIXAL
     # in the necessary XDR structs to be included within a
     # transactions `operations` array.
     #
-    # @see VIXAL::Asset
+    # @see Vixal::Asset
     #
     # @param [Hash] attributes the attributes to create the operation with
-    # @option attributes [VIXAL::KeyPair] :destination the receiver of the payment
+    # @option attributes [Vixal::KeyPair] :destination the receiver of the payment
     # @option attributes [Array] :amount the amount to pay
-    # @return [VIXAL::Operation] the built operation, containing a
-    #                              VIXAL::PaymentOp body
+    # @return [Vixal::Operation] the built operation, containing a
+    #                              Vixal::PaymentOp body
     def self.payment(attributes={})
       destination = attributes[:destination]
       asset, amount = extract_amount(attributes[:amount])
@@ -62,21 +62,21 @@ module VIXAL
     # in the necessary XDR structs to be included within a
     # transactions `operations` array.
     #
-    # @see VIXAL::Asset
+    # @see Vixal::Asset
     #
     # @param [Hash] attributes the attributes to create the operation with
-    # @option attributes [VIXAL::KeyPair] :destination the receiver of the payment
+    # @option attributes [Vixal::KeyPair] :destination the receiver of the payment
     # @option attributes [Array] :amount the amount to pay
     # @option attributes [Array] :with the source asset and maximum allowed source amount to pay with
-    # @option attributes [Array<VIXAL::Asset>] :path the payment path to use
+    # @option attributes [Array<Vixal::Asset>] :path the payment path to use
     #
-    # @return [VIXAL::Operation] the built operation, containing a
-    #                              VIXAL::PaymentOp body
+    # @return [Vixal::Operation] the built operation, containing a
+    #                              Vixal::PaymentOp body
     def self.path_payment(attributes={})
       destination             = attributes[:destination]
       asset, amount           = extract_amount(attributes[:amount])
       send_asset, send_max    = extract_amount(attributes[:with])
-      path                    = (attributes[:path] || []).map{|p| VIXAL::Asset.send(*p)}
+      path                    = (attributes[:path] || []).map{|p| Vixal::Asset.send(*p)}
 
       raise ArgumentError unless destination.is_a?(KeyPair)
 
@@ -114,11 +114,11 @@ module VIXAL
     # transactions `operations` array.
     #
     # @param [Hash] attributes the attributes to create the operation with
-    # @option attributes [VIXAL::Currrency] :line the asset to trust
+    # @option attributes [Vixal::Currrency] :line the asset to trust
     # @option attributes [Fixnum] :limit the maximum amount to trust
     #
-    # @return [VIXAL::Operation] the built operation, containing a
-    #                              VIXAL::ChangeTrustOp body
+    # @return [Vixal::Operation] the built operation, containing a
+    #                              Vixal::ChangeTrustOp body
     def self.change_trust(attributes={})
       line  = Asset.send(*attributes[:line])
       limit =interpret_amount(attributes[:limit])
@@ -176,18 +176,18 @@ module VIXAL
     # transactions `operations` array.
     #
     # @param [Hash] attributes the attributes to create the operation with
-    # @option attributes [VIXAL::KeyPair] :inflation_dest
-    # @option attributes [Array<VIXAL::AccountFlags>] :set flags to set
-    # @option attributes [Array<VIXAL::AccountFlags>] :clear flags to clear
+    # @option attributes [Vixal::KeyPair] :inflation_dest
+    # @option attributes [Array<Vixal::AccountFlags>] :set flags to set
+    # @option attributes [Array<Vixal::AccountFlags>] :clear flags to clear
     # @option attributes [String] :thresholds
-    # @option attributes [VIXAL::Signer] :signer
+    # @option attributes [Vixal::Signer] :signer
     #
-    # @return [VIXAL::Operation] the built operation, containing a
-    #                              VIXAL::SetOptionsOp body
+    # @return [Vixal::Operation] the built operation, containing a
+    #                              Vixal::SetOptionsOp body
     def self.set_options(attributes={})
       op                = SetOptionsOp.new()
-      op.set_flags      = VIXAL::AccountFlags.make_mask attributes[:set]
-      op.clear_flags    = VIXAL::AccountFlags.make_mask attributes[:clear]
+      op.set_flags      = Vixal::AccountFlags.make_mask attributes[:set]
+      op.clear_flags    = Vixal::AccountFlags.make_mask attributes[:clear]
       op.master_weight  = attributes[:master_weight]
       op.low_threshold  = attributes[:low_threshold]
       op.med_threshold  = attributes[:med_threshold]
@@ -199,7 +199,7 @@ module VIXAL
 
       inflation_dest = attributes[:inflation_dest]
       if inflation_dest
-        raise ArgumentError, "Bad :inflation_dest" unless inflation_dest.is_a?(VIXAL::KeyPair)
+        raise ArgumentError, "Bad :inflation_dest" unless inflation_dest.is_a?(Vixal::KeyPair)
         op.inflation_dest = inflation_dest.account_id
       end
 
@@ -215,11 +215,11 @@ module VIXAL
     # transactions `operations` array.
     #
     # @param [Hash] attributes the attributes to create the operation with
-    # @option attributes [VIXAL::KeyPair]  :trustor
-    # @option attributes [VIXAL::Asset] :asset
+    # @option attributes [Vixal::KeyPair]  :trustor
+    # @option attributes [Vixal::Asset] :asset
     #
-    # @return [VIXAL::Operation] the built operation, containing a
-    #                              VIXAL::AllowTrustOp body
+    # @return [Vixal::Operation] the built operation, containing a
+    #                              Vixal::AllowTrustOp body
     def self.allow_trust(attributes={})
       op = AllowTrustOp.new()
 
@@ -227,9 +227,9 @@ module VIXAL
       authorize = attributes[:authorize]
       asset     = Asset.send(*attributes[:asset])
 
-      raise ArgumentError, "Bad :trustor" unless trustor.is_a?(VIXAL::KeyPair)
+      raise ArgumentError, "Bad :trustor" unless trustor.is_a?(Vixal::KeyPair)
       raise ArgumentError, "Bad :authorize" unless authorize == !!authorize # check boolean
-      raise ArgumentError, "Bad :asset" unless asset.type == VIXAL::AssetType.asset_type_credit_alphanum4
+      raise ArgumentError, "Bad :asset" unless asset.type == Vixal::AssetType.asset_type_credit_alphanum4
 
       atc = AllowTrustOp::Asset.new(:asset_type_credit_alphanum4, asset.code)
 
@@ -246,9 +246,9 @@ module VIXAL
     # Helper method to create an account merge operation
     #
     # @param [Hash] attributes the attributes to create the operation with
-    # @option attributes [VIXAL::KeyPair]  :destination
+    # @option attributes [Vixal::KeyPair]  :destination
     #
-    # @return [VIXAL::Operation] the built operation
+    # @return [Vixal::Operation] the built operation
     def self.account_merge(attributes={})
       destination = attributes[:destination]
 
@@ -266,7 +266,7 @@ module VIXAL
     # @param [Hash] attributes the attributes to create the operation with
     # @option attributes [Integer]  :sequence
     #
-    # @return [VIXAL::Operation] the built operation
+    # @return [Vixal::Operation] the built operation
     def self.inflation(attributes={})
       sequence = attributes[:sequence]
 
@@ -284,7 +284,7 @@ module VIXAL
     # @param [Hash] attributes the attributes to create the operation with
     # @option attributes [Integer]  :sequence
     #
-    # @return [VIXAL::Operation] the built operation
+    # @return [Vixal::Operation] the built operation
     def self.manage_data(attributes={})
       op = ManageDataOp.new()
 
@@ -309,7 +309,7 @@ module VIXAL
     private
     def self.extract_amount(a)
       amount   = interpret_amount(a.last)
-      asset    = VIXAL::Asset.send(*a[0...-1])
+      asset    = Vixal::Asset.send(*a[0...-1])
 
       return asset, amount
     end
@@ -317,11 +317,11 @@ module VIXAL
     def self.interpret_amount(amount)
       case amount
       when String
-        (BigDecimal.new(amount) * VIXAL::ONE).floor
+        (BigDecimal.new(amount) * Vixal::ONE).floor
       when Integer
-        amount * VIXAL::ONE
+        amount * Vixal::ONE
       when Numeric
-        (amount * VIXAL::ONE).floor
+        (amount * Vixal::ONE).floor
       else
         raise ArgumentError, "Invalid amount type: #{amount.class}. Must be String or Numeric"
       end
@@ -335,10 +335,10 @@ module VIXAL
         Price.from_f(bd)
       when Numeric
         Price.from_f(price)
-      when VIXAL::Price
+      when Vixal::Price
         price
       else
-        raise ArgumentError, "Invalid price type: #{price.class}. Must be String, Numeric, or VIXAL::Price"
+        raise ArgumentError, "Invalid price type: #{price.class}. Must be String, Numeric, or Vixal::Price"
       end
     end
   end

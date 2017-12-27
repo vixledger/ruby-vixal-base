@@ -1,7 +1,7 @@
 RSpec::Matchers.define :be_strkey do |version_byte|
   match do |actual|
     begin
-      VIXAL::Util::StrKey.check_decode(version_byte, actual)
+      Vixal::Util::StrKey.check_decode(version_byte, actual)
     rescue ArgumentError
       false
     end

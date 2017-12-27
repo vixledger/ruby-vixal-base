@@ -1,4 +1,4 @@
-module VIXAL
+module Vixal
   class PathPaymentResult
     # send_amount returns the actual amount paid for the corresponding
     # PathPaymentOp to this result.

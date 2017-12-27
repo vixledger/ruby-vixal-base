@@ -9,9 +9,9 @@ require 'active_support/core_ext/kernel/reporting'
 silence_warnings do
   require 'vixal-base-generated'
 end
-VIXAL.load_all!
+Vixal.load_all!
 
-VIXAL::ONE = 1_0000000
+Vixal::ONE = 1_0000000
 
 
 # extensions onto the generated files must be loaded manually, below

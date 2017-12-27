@@ -1,68 +1,68 @@
-module VIXAL
+module Vixal
   class Transaction
 
     #
-    # @see  VIXAL::Operation.payment
+    # @see  Vixal::Operation.payment
     def self.payment(attributes={})
       make :payment, attributes
     end
 
     #
-    # @see  VIXAL::Operation.path_payment
+    # @see  Vixal::Operation.path_payment
     def self.path_payment(attributes={})
       make :path_payment, attributes
     end
 
     #
-    # @see  VIXAL::Operation.create_account
+    # @see  Vixal::Operation.create_account
     def self.create_account(attributes={})
       make :create_account, attributes
     end
 
     #
-    # @see  VIXAL::Operation.change_trust
+    # @see  Vixal::Operation.change_trust
     def self.change_trust(attributes={})
       make :change_trust, attributes
     end
 
     #
-    # @see  VIXAL::Operation.create_offer
+    # @see  Vixal::Operation.create_offer
     def self.manage_offer(attributes={})
       make :manage_offer, attributes
     end
 
     #
-    # @see  VIXAL::Operation.create_passive_offer
+    # @see  Vixal::Operation.create_passive_offer
     def self.create_passive_offer(attributes={})
       make :create_passive_offer, attributes
     end
 
     #
-    # @see  VIXAL::Operation.set_options
+    # @see  Vixal::Operation.set_options
     def self.set_options(attributes={})
       make :set_options, attributes
     end
 
     #
-    # @see  VIXAL::Operation.allow_trust
+    # @see  Vixal::Operation.allow_trust
     def self.allow_trust(attributes={})
       make :allow_trust, attributes
     end
 
     #
-    # @see  VIXAL::Operation.account_merge
+    # @see  Vixal::Operation.account_merge
     def self.account_merge(attributes={})
       make :account_merge, attributes
     end
 
     #
-    # @see  VIXAL::Operation.inflation
+    # @see  Vixal::Operation.inflation
     def self.inflation(attributes={})
       make :inflation, attributes
     end
 
     #
-    # @see  VIXAL::Operation.manage_data
+    # @see  Vixal::Operation.manage_data
     def self.manage_data(attributes={})
       make :manage_data, attributes
     end
@@ -70,15 +70,15 @@ module VIXAL
     #
     # Helper method to create a transaction with a single
     # operation of the provided type.  See class methods
-    # on VIXAL::Operation for available values for
+    # on Vixal::Operation for available values for
     # operation_type.
     #
-    # @see  VIXAL::Operation
+    # @see  Vixal::Operation
     #
     # @param operation_type [Symbol] the operation to use
     # @param attributes={} [Hash] attributes to use for both the transaction and the operation
     #
-    # @return [VIXAL::Transaction] the resulting transaction
+    # @return [Vixal::Transaction] the resulting transaction
     def self.make(operation_type, attributes={})
       for_account(attributes).tap do |result|
         result.operations << Operation.send(operation_type, attributes)
@@ -94,7 +94,7 @@ module VIXAL
     #
     # @param attributes={} [type] [description]
     #
-    # @return [VIXAL::Transaction] the resulting skeleton
+    # @return [Vixal::Transaction] the resulting skeleton
     def self.for_account(attributes={})
       account  = attributes[:account]
       sequence = attributes[:sequence]
@@ -132,9 +132,9 @@ module VIXAL
     end
 
     def signature_base_prefix
-      val = VIXAL::EnvelopeType.envelope_type_tx
+      val = Vixal::EnvelopeType.envelope_type_tx
 
-      VIXAL.current_network_id + VIXAL::EnvelopeType.to_xdr(val)
+      Vixal.current_network_id + Vixal::EnvelopeType.to_xdr(val)
     end
 
     def to_envelope(*key_pairs)
@@ -171,13 +171,13 @@ module VIXAL
       self.operations ||= []
       self.fee        ||= 100
       self.memo       ||= Memo.new(:memo_none)
-      self.ext        ||= VIXAL::Transaction::Ext.new 0
+      self.ext        ||= Vixal::Transaction::Ext.new 0
     end
 
     private
     def self.make_memo(memo)
       case memo
-      when VIXAL::Memo ;
+      when Vixal::Memo ;
         memo
       when nil ;
         nil

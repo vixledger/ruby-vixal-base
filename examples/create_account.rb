@@ -10,10 +10,10 @@ $server = Faraday.new(url: "http://localhost:39132") do |conn|
   conn.adapter Faraday.default_adapter
 end
 
-master      = VIXAL::KeyPair.master
-destination = VIXAL::KeyPair.random
+master      = Vixal::KeyPair.master
+destination = Vixal::KeyPair.random
 
-tx = VIXAL::Transaction.create_account({
+tx = Vixal::Transaction.create_account({
   account:     master,
   destination: destination,
   sequence:    1,

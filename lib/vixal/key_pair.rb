@@ -1,4 +1,4 @@
-module VIXAL
+module Vixal
   class KeyPair
     def self.from_seed(seed)
       seed_bytes = Util::StrKey.check_decode(:seed, seed)
@@ -33,7 +33,7 @@ module VIXAL
     end
 
     def self.master
-      from_raw_seed(VIXAL.current_network_id)
+      from_raw_seed(Vixal.current_network_id)
     end
 
     def initialize(public_key, secret_key=nil)
@@ -42,11 +42,11 @@ module VIXAL
     end
 
     def account_id
-      VIXAL::AccountID.new :public_key_type_ed25519, raw_public_key
+      Vixal::AccountID.new :public_key_type_ed25519, raw_public_key
     end
 
     def public_key
-      VIXAL::PublicKey.new :public_key_type_ed25519, raw_public_key
+      Vixal::PublicKey.new :public_key_type_ed25519, raw_public_key
     end
 
     def raw_public_key
@@ -94,7 +94,7 @@ module VIXAL
 
     def sign_decorated(message)
       raw_signature = sign(message)
-      VIXAL::DecoratedSignature.new({
+      Vixal::DecoratedSignature.new({
         hint:      signature_hint,
         signature: raw_signature
       })

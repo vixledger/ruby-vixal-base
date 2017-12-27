@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe VIXAL::Util::StrKey do
+describe Vixal::Util::StrKey do
 
-subject{ VIXAL::Util::StrKey }
+subject{ Vixal::Util::StrKey }
 
   describe "#check_decode" do
     it "properly decodes" do

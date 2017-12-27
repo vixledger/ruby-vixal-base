@@ -1,14 +1,14 @@
 # encoding: utf-8
 require "spec_helper"
 
-describe VIXAL::KeyPair do
+describe Vixal::KeyPair do
 
   describe ".from_seed" do
-    subject{ VIXAL::KeyPair.from_seed(seed) }
+    subject{ Vixal::KeyPair.from_seed(seed) }
 
     context "when provided a strkey encoded seed" do
       let(:seed){ "SBDA4J4PYZJEXWDTHFZBIGFVF2745BTKDKADWDQF72QXP55BP6XOV3B6" }
-      it { should be_a(VIXAL::KeyPair) }
+      it { should be_a(Vixal::KeyPair) }
     end
 
     context "provided value is not strkey encoded" do
@@ -18,17 +18,17 @@ describe VIXAL::KeyPair do
 
     context "provided value is not strkey encoded as a seed" do
       let(:raw_seed){ "allmylifemyhearthasbeensearching" }
-      let(:seed){ VIXAL::Util::StrKey.check_encode(:account_id, raw_seed) }
+      let(:seed){ Vixal::Util::StrKey.check_encode(:account_id, raw_seed) }
       it { expect{ subject }.to raise_error(ArgumentError) }
     end
   end
 
   describe ".from_raw_seed" do
-    subject{ VIXAL::KeyPair.from_raw_seed(raw_seed) }
+    subject{ Vixal::KeyPair.from_raw_seed(raw_seed) }
 
     context "when the provided value is a 32-byte string" do
       let(:raw_seed){ "allmylifemyhearthasbeensearching" }
-      it { should be_a(VIXAL::KeyPair) }
+      it { should be_a(Vixal::KeyPair) }
     end
 
     context "when the provided value is < 32-byte string" do
@@ -48,11 +48,11 @@ describe VIXAL::KeyPair do
   end
 
   describe ".from_public_key" do
-    subject{ VIXAL::KeyPair.from_public_key(key) }
+    subject{ Vixal::KeyPair.from_public_key(key) }
 
     context "when the provided value is a 32-byte string" do
       let(:key){ "\xFF" * 32 }
-      it { should be_a(VIXAL::KeyPair) }
+      it { should be_a(Vixal::KeyPair) }
     end
 
     context "when the provided value is < 32-byte string" do
@@ -72,11 +72,11 @@ describe VIXAL::KeyPair do
   end
 
   describe ".from_address" do
-    subject{ VIXAL::KeyPair.from_address(address) }
+    subject{ Vixal::KeyPair.from_address(address) }
 
     context "when provided a strkey encoded account_id" do
       let(:address){ "GBRAINV4XDXEINVTNN53GOIGTN4B3BK65N6Q2ZBOMXHGHT347OQVNYZQ" }
-      it { should be_a(VIXAL::KeyPair) }
+      it { should be_a(Vixal::KeyPair) }
     end
 
     context "provided value is not strkey encoded" do
@@ -86,31 +86,31 @@ describe VIXAL::KeyPair do
 
     context "provided value is not strkey encoded as an account_id" do
       let(:public_key){ "\xFF" * 32 }
-      let(:address){ VIXAL::Util::StrKey.check_encode(:seed, public_key) }
+      let(:address){ Vixal::Util::StrKey.check_encode(:seed, public_key) }
       it { expect{ subject }.to raise_error(ArgumentError) }
     end
 
   end
 
   describe ".random" do
-    subject{ VIXAL::KeyPair.random }
+    subject{ Vixal::KeyPair.random }
 
     it "returns a new KeyPair every time" do
-      other = VIXAL::KeyPair.random
+      other = Vixal::KeyPair.random
       expect(subject.raw_seed == other.raw_seed).to eq(false)
     end
   end
 
   describe ".master" do
-    subject{ VIXAL::KeyPair.master }
+    subject{ Vixal::KeyPair.master }
 
     it "returns a keypair whose raw_seed is the current_network_id" do
-      expect(subject.raw_seed).to eql(VIXAL.current_network_id)
+      expect(subject.raw_seed).to eql(Vixal.current_network_id)
     end
   end
 
   describe "#raw_public_key" do
-    let(:key_pair){ VIXAL::KeyPair.random }
+    let(:key_pair){ Vixal::KeyPair.random }
     subject{ key_pair.raw_public_key }
 
     it { should be_a(String) }
@@ -118,17 +118,17 @@ describe VIXAL::KeyPair do
   end
 
   describe "#public_key" do
-    let(:key_pair){ VIXAL::KeyPair.random }
+    let(:key_pair){ Vixal::KeyPair.random }
     subject{ key_pair.public_key }
 
-    it { should be_a(VIXAL::PublicKey) }
+    it { should be_a(Vixal::PublicKey) }
   end
 
   describe "#account_id" do
-    let(:key_pair){ VIXAL::KeyPair.random }
+    let(:key_pair){ Vixal::KeyPair.random }
     subject{ key_pair.account_id }
 
-    it { should be_a(VIXAL::AccountID) }
+    it { should be_a(Vixal::AccountID) }
 
     it "contains the public key" do
         expect(subject.ed25519!).to eql(key_pair.raw_public_key)
@@ -136,7 +136,7 @@ describe VIXAL::KeyPair do
   end
 
   describe "#raw_seed" do
-    let(:key_pair){ VIXAL::KeyPair.random }
+    let(:key_pair){ Vixal::KeyPair.random }
     subject{ key_pair.raw_seed }
 
     it { should be_a(String) }
@@ -144,7 +144,7 @@ describe VIXAL::KeyPair do
   end
 
   describe "#signature_hint" do
-    let(:key_pair){ VIXAL::KeyPair.random }
+    let(:key_pair){ Vixal::KeyPair.random }
     subject{ key_pair.signature_hint }
 
     it { should be_a(String) }
@@ -157,13 +157,13 @@ describe VIXAL::KeyPair do
   end
 
   describe "#address" do
-    let(:key_pair){ VIXAL::KeyPair.random }
+    let(:key_pair){ Vixal::KeyPair.random }
     subject{ key_pair.address }
     it{ should be_strkey(:account_id)}
   end
 
   describe "#seed" do
-    let(:key_pair){ VIXAL::KeyPair.random }
+    let(:key_pair){ Vixal::KeyPair.random }
     subject{ key_pair.seed }
     it{ should be_strkey(:seed)}
   end
@@ -173,13 +173,13 @@ describe VIXAL::KeyPair do
     subject{ key_pair.sign(message) }
 
     context "when the key_pair has no private key" do
-      let(:key_pair){ VIXAL::KeyPair.from_public_key("\x00" * 32)}
+      let(:key_pair){ Vixal::KeyPair.from_public_key("\x00" * 32)}
 
       it{ expect{ subject }.to raise_error("no private key") }
     end
 
     context "when the key_pair has both public/private keys" do
-      let(:key_pair){ VIXAL::KeyPair.from_raw_seed("\x00" * 32)}
+      let(:key_pair){ Vixal::KeyPair.from_raw_seed("\x00" * 32)}
 
       it { should have_length(64) }
 
@@ -196,7 +196,7 @@ describe VIXAL::KeyPair do
   end
 
   describe "#verify" do
-    let(:key_pair)  { VIXAL::KeyPair.random }
+    let(:key_pair)  { Vixal::KeyPair.random }
     let(:message)   { "hello" }
     subject         { key_pair.verify(signature, message) }
 
@@ -216,7 +216,7 @@ describe VIXAL::KeyPair do
     end
 
     context "when the signature is from a different key" do
-      let(:signature) { VIXAL::KeyPair.random.sign(message) }
+      let(:signature) { Vixal::KeyPair.random.sign(message) }
       it{ should be_falsey }
     end
 
@@ -226,12 +226,12 @@ describe VIXAL::KeyPair do
     subject{ key_pair.sign? }
 
     context "when the key_pair has no private key" do
-      let(:key_pair){ VIXAL::KeyPair.from_public_key("\x00" * 32)}
+      let(:key_pair){ Vixal::KeyPair.from_public_key("\x00" * 32)}
       it{ should eq(false) }
     end
 
     context "when the key_pair has both public/private keys" do
-      let(:key_pair){ VIXAL::KeyPair.from_raw_seed("\x00" * 32)}
+      let(:key_pair){ Vixal::KeyPair.from_raw_seed("\x00" * 32)}
       it{ should eq(true) }
     end
   end

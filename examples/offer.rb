@@ -27,10 +27,10 @@ def submit(key, tx)
   p response.body
 end
 
-master      = VIXAL::KeyPair.master
-destination = VIXAL::KeyPair.master
+master      = Vixal::KeyPair.master
+destination = Vixal::KeyPair.master
 
-submit master, VIXAL::Transaction.payment({
+submit master, Vixal::Transaction.payment({
   account:     master,
   destination: destination,
   sequence:    1,
@@ -44,28 +44,28 @@ gets # pause to get the account's sequence from the hayashi db
 destination_sequence = FILL_ME_IN
 # destination_sequence = 17179869185
 
-submit destination, VIXAL::Transaction.change_trust({
+submit destination, Vixal::Transaction.change_trust({
   account:    destination,
   sequence:   destination_sequence,
   line:       [:alphanum4, "USD\x00", master],
   limit:      1000
 })
 
-submit destination, VIXAL::Transaction.change_trust({
+submit destination, Vixal::Transaction.change_trust({
   account:    destination,
   sequence:   destination_sequence + 1,
   line:       [:alphanum4, "EUR\x00", master],
   limit:      1000
 })
 
-submit master, VIXAL::Transaction.payment({
+submit master, Vixal::Transaction.payment({
   account:     master,
   destination: destination,
   sequence:    destination_sequence + 2,
   amount:      [:alphanum4, "USD\x00", master, 1000]
 })
 
-submit master, VIXAL::Transaction.manage_offer({
+submit master, Vixal::Transaction.manage_offer({
   account:    destination,
   sequence:   destination_sequence + 3,
   selling:    [:alphanum4, "USD\x00", usd_gateway],

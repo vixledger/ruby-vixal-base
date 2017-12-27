@@ -1,9 +1,9 @@
-module VIXAL
+module Vixal
   # Provides a container for well-known network passphrases, such as the main network and SDF test network
   module Networks
 
-    PUBLIC  = "Public Global VIXAL Network ; December 2017"
-    TESTNET = "Test VIXAL Network ; December 2017"
+    PUBLIC  = "Public Global Vixal Network ; December 2017"
+    TESTNET = "Test Vixal Network ; December 2017"
 
   end
 
@@ -14,18 +14,18 @@ module VIXAL
   #        methods of specifying a network if you need two threads in the same process to communicate with
   #        different networks
   #
-  # @see VIXAL.default_network
-  # @see VIXAL.on_network
+  # @see Vixal.default_network
+  # @see Vixal.on_network
   def self.default_network=(passphrase)
     @default_network = passphrase
   end
 
-  # Returns the passphrase for the currently-configured network, as set by VIXAL.default_network
-  # or VIXAL.on_network
+  # Returns the passphrase for the currently-configured network, as set by Vixal.default_network
+  # or Vixal.on_network
   def self.current_network
     Thread.current["vixal_network_passphrase"] || 
     @default_network || 
-    VIXAL::Networks::TESTNET
+    Vixal::Networks::TESTNET
   end
 
   # Returns the id for the currently configured network, suitable for use in generating

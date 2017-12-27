@@ -1,4 +1,4 @@
-module VIXAL
+module Vixal
   module Util
     class ContinuedFraction
       MAX_PRECISION = (2**32) - 1

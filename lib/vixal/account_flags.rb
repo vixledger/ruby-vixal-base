@@ -1,12 +1,12 @@
-module VIXAL
+module Vixal
   class AccountFlags
 
 
     #
-    # Converts an array of VIXAL::AccountFlags members into
+    # Converts an array of Vixal::AccountFlags members into
     # an Integer suitable for use in a SetOptionsOp.
     #
-    # @param flags=nil [Array<VIXAL::AccountFlags>] the flags to combine
+    # @param flags=nil [Array<Vixal::AccountFlags>] the flags to combine
     #
     # @return [Fixnum] the combined result
     def self.make_mask(flags=nil)
@@ -17,10 +17,10 @@ module VIXAL
 
     #
     # Converts an integer used in SetOptionsOp on the set/clear flag options
-    # into an array of VIXAL::AccountFlags members
+    # into an array of Vixal::AccountFlags members
     #
     #  @param combined [Fixnum]
-    #  @return [Array<VIXAL::AccountFlags>]
+    #  @return [Array<Vixal::AccountFlags>]
     def self.parse_mask(combined)
       members.values.select{|m| (m.value & combined) != 0}
     end

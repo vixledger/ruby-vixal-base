@@ -1,4 +1,4 @@
-module VIXAL
+module Vixal
   #
   # Generic format conversion module
   #
@@ -21,10 +21,10 @@ module VIXAL
       Base64.strict_decode64(base64_string)
     end
 
-    ## Converts a VIXAL::PublicKey instance (or any typedef of it such as
-    # VIXAL::AccountID) to an address
+    ## Converts a Vixal::PublicKey instance (or any typedef of it such as
+    # Vixal::AccountID) to an address
     def pk_to_address(pk)
-      VIXAL::Util::StrKey.check_encode(:account_id, pk.ed25519!)
+      Vixal::Util::StrKey.check_encode(:account_id, pk.ed25519!)
     end
 
     extend self

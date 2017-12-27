@@ -2,17 +2,17 @@
 
 require 'vixal-base'
 
-master      = VIXAL::KeyPair.master
-destination = VIXAL::KeyPair.master
+master      = Vixal::KeyPair.master
+destination = Vixal::KeyPair.master
 
-tx1 = VIXAL::Transaction.payment({
+tx1 = Vixal::Transaction.payment({
   account:     master,
   destination: destination,
   sequence:    1,
   amount:      [:native, 20]
 })
 
-tx2 = VIXAL::Transaction.payment({
+tx2 = Vixal::Transaction.payment({
   account:     master,
   destination: destination,
   sequence:    2,

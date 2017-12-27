@@ -17,10 +17,10 @@ $server = Faraday.new(url: "http://localhost:39132") do |conn|
   conn.adapter Faraday.default_adapter
 end
 
-master      = VIXAL::KeyPair.from_raw_seed("allmylifemyhearthasbeensearching")
-destination = VIXAL::KeyPair.from_raw_seed("allmylifemyhearthasbeensearching")
+master      = Vixal::KeyPair.from_raw_seed("allmylifemyhearthasbeensearching")
+destination = Vixal::KeyPair.from_raw_seed("allmylifemyhearthasbeensearching")
 
-tx = VIXAL::Transaction.payment({
+tx = Vixal::Transaction.payment({
   account:     master,
   destination: destination,
   sequence:    1,

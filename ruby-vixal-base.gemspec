@@ -3,7 +3,7 @@ require_relative './lib/vixal/base/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "vixal-base"
-  spec.version       = VIXAL::Base::VERSION
+  spec.version       = Vixal::Base::VERSION
   spec.authors       = ["Scott Fleckenstein"]
   spec.email         = ["scott@stellar.org"]
   spec.summary       = %q{VIXAL client library: XDR}

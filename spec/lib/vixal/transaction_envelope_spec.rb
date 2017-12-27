@@ -1,10 +1,10 @@
 require "spec_helper"
 
-describe VIXAL::TransactionEnvelope do
-  let(:sender)  { VIXAL::KeyPair.random }
-  let(:receiver){ VIXAL::KeyPair.random }
+describe Vixal::TransactionEnvelope do
+  let(:sender)  { Vixal::KeyPair.random }
+  let(:receiver){ Vixal::KeyPair.random }
   let(:transaction) do
-    VIXAL::Transaction.payment({
+    Vixal::Transaction.payment({
       account:     sender,
       destination: receiver,
       sequence:    1,
@@ -54,7 +54,7 @@ describe VIXAL::TransactionEnvelope do
     end
 
     context "when signed by a multiple accounts" do
-      let(:alternate_signer){ VIXAL::KeyPair.random }
+      let(:alternate_signer){ Vixal::KeyPair.random }
       let(:signers)  { [sender, alternate_signer] }
       let(:verifiers){ signers }
 
@@ -63,7 +63,7 @@ describe VIXAL::TransactionEnvelope do
       end
 
       context "and all public keys are provided, with additional unused keys provided" do
-        let(:verifiers){ signers + [VIXAL::KeyPair.random] }
+        let(:verifiers){ signers + [Vixal::KeyPair.random] }
         it{ should be_truthy }
       end
 
